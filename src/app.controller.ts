@@ -7,6 +7,6 @@ export class AppController {
 
     @Get("/ping")
     pong() {
-        return "pong";
+        return this.appService.pong();
     }
 }
