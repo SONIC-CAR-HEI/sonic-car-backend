@@ -79,7 +79,6 @@ export class AdminService {
             where: {
                 email,
             },
-            select: disablePasswordOutput,
         });
     }
 }
