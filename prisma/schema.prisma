@@ -18,35 +18,62 @@ model Car {
   brand       String
   model       String
   price       Float
-  available   Boolean
-  fav         Boolean
+  engineType  EngineType
+  available   Boolean?      @default(true)
+  fav         Boolean?      @default(false)
   type        Type          @relation(fields: [typeId], references: [id])
   typeId      String
-  Apointement Apointement[]
+  apointement Appointment[]
+  images      Image[]
+}
+
+enum EngineType {
+  DIESEL
+  HYBRID
+  ELECTRIC
+  GASOLINE
 }
 
 model Type {
   id          String @id @default(uuid())
   name        String
   description String
-  Car         Car[]
+  cars        Car[]
 }
 
-enum ApointementStatus {
+enum AppointmentStatus {
   PENDING
   ARCHIVED
   REJECTED
   ACCEPTED
 }
 
-model Apointement {
-  id        String            @id @default(uuid())
-  status    ApointementStatus
-  firstName String
-  lastName  String
-  email     String
-  tel       String
-  date      DateTime          @default(now())
-  carId     String
-  car       Car               @relation(fields: [carId], references: [id])
+model Appointment {
+  id         String            @id @default(uuid())
+  status     AppointmentStatus
+  firstName  String
+  lastName   String
+  email      String
+  tel        String
+  date       DateTime          @default(now())
+  approvedBy Admin?            @relation(fields: [adminId], references: [id])
+  carId      String
+  car        Car               @relation(fields: [carId], references: [id])
+  adminId    String?
+}
+
+model Admin {
+  id                    String        @id @default(uuid())
+  firstName             String
+  lastName              String
+  email                 String
+  password              String
+  approvedAppointements Appointment[]
+}
+
+model Image {
+  id       String @id @default(uuid())
+  imageUrl String
+  car      Car    @relation(fields: [carId], references: [id])
+  carId    String
 }
