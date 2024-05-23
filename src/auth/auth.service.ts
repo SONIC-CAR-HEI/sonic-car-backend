@@ -8,6 +8,7 @@ import { AdminService } from "../admin/admin.service";
 import { JwtService } from "@nestjs/jwt";
 import { CryptoService } from "../crypto/crypto.service";
 import * as process from "node:process";
+import { LoginPayloadDto } from "./dto/login-payload.dto";
 
 @Injectable()
 export class AuthService {
@@ -19,8 +20,12 @@ export class AuthService {
         private readonly cryptoService: CryptoService,
     ) {}
 
-    async login(email: string, password: string): Promise<{ token: string }> {
-        const adminQueried = await this.adminService.findByEmail(email);
+    async login(
+        loginPayload: LoginPayloadDto,
+    ): Promise<{ token: string }> | null {
+        const adminQueried = await this.adminService.findByEmail(
+            loginPayload.email,
+        );
 
         if (!adminQueried) {
             throw new UnauthorizedException(
@@ -28,12 +33,14 @@ export class AuthService {
             );
         }
 
-        this.logger.log(`User with email ${email} found`);
+        this.logger.log(`User with email ${loginPayload.email} found`);
 
-        const isMatch = this.cryptoService.isMatch(
-            password,
+        const isMatch = await this.cryptoService.isMatch(
+            loginPayload.password,
             adminQueried.password,
         );
+
+        this.logger.debug(`Valid given password ${isMatch}`);
 
         if (!isMatch) {
             throw new UnauthorizedException("Incorrect password!");
