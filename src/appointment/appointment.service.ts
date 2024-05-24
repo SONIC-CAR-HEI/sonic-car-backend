@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { CreateAppointmentDto } from "./dto/create-appointment.dto";
 import { UpdateAppointmentDto } from "./dto/update-appointment.dto";
 import { PrismaService } from "../prisma/prisma.service";
+import { AppointmentStatus } from "@prisma/client";
 
 @Injectable()
 export class AppointmentService {
@@ -31,6 +32,17 @@ export class AppointmentService {
         return this.prismaService.appointment.update({
             data: {
                 ...updateAppointmentDto,
+            },
+            where: {
+                id,
+            },
+        });
+    }
+
+    changeAppointmentStatus(id: string, status: AppointmentStatus) {
+        return this.prismaService.appointment.update({
+            data: {
+                status,
             },
             where: {
                 id,
