@@ -1,22 +1,15 @@
-import {
-    CanActivate,
-    ExecutionContext,
-    Injectable,
-    Logger,
-} from "@nestjs/common";
-import { Observable } from "rxjs";
-import { AuthService } from "./auth.service";
+import { ExecutionContext, Injectable } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 
 @Injectable()
-export class AuthGuard implements CanActivate {
-    private readonly logger = new Logger("AuthGuard");
+export class LocalAuthGuard extends AuthGuard("local") {}
 
-    constructor(private readonly authService: AuthService) {}
+@Injectable()
+export class JwtAuthGuard extends AuthGuard("jwt") {}
 
-    canActivate(
-        context: ExecutionContext,
-    ): boolean | Promise<boolean> | Observable<boolean> {
-        this.logger.log("Protected resource hit");
-        return this.authService.isAuthenticated(context);
+@Injectable()
+export class SupabaseAuthGuard extends AuthGuard("supabase") {
+    getRequest(context: ExecutionContext) {
+        return context.switchToHttp().getRequest();
     }
 }
