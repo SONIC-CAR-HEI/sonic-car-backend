@@ -6,6 +6,7 @@ import { AppointmentModule } from "./appointment/appointment.module";
 import { AdminModule } from "./admin/admin.module";
 import { ConfigModule } from "@nestjs/config";
 import { AuthModule } from "./auth/auth.module";
+import { CarTypeModule } from "./car-type/car-type.module";
 import * as Joi from "joi";
 
 @Module({
@@ -24,6 +25,7 @@ import * as Joi from "joi";
         AppointmentModule,
         AdminModule,
         AuthModule,
+        CarTypeModule,
     ],
     controllers: [AppController],
     providers: [AppService],
