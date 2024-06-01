@@ -5,7 +5,8 @@ export class CreateAppointmentDto {
     firstName: string;
     lastName: string;
     email: string;
-    tel: string;
+    tel: string | null;
+    message: string;
     date: Date = new Date();
     carId: string;
 }

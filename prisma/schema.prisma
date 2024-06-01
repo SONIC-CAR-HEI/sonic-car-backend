@@ -15,16 +15,25 @@ datasource db {
 
 model Car {
   id          String        @id @default(uuid())
-  brand       String
   model       String
   price       Float
   engineType  EngineType
+  placeNumber Int
   available   Boolean?      @default(true)
   fav         Boolean?      @default(false)
   type        Type          @relation(fields: [typeId], references: [id])
   typeId      String
   apointement Appointment[]
   images      Image[]
+  brand       Brand         @relation(fields: [brandId], references: [id])
+  brandId     String
+}
+
+model Brand {
+  id      String  @id @default(uuid())
+  name    String
+  logoUrl String?
+  Car     Car[]
 }
 
 enum EngineType {
@@ -53,8 +62,9 @@ model Appointment {
   status     AppointmentStatus
   firstName  String
   lastName   String
+  message    String
   email      String
-  tel        String
+  tel        String?
   date       DateTime          @default(now())
   approvedBy Admin?            @relation(fields: [adminId], references: [id])
   carId      String

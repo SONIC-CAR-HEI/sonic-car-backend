@@ -7,6 +7,8 @@ import { AdminModule } from "./admin/admin.module";
 import { ConfigModule } from "@nestjs/config";
 import { AuthModule } from "./auth/auth.module";
 import { CarTypeModule } from "./car-type/car-type.module";
+import { CarImageModule } from "./car-image/car-image.module";
+import { BrandModule } from "./brand/brand.module";
 import * as Joi from "joi";
 
 @Module({
@@ -19,13 +21,18 @@ import * as Joi from "joi";
                 SUPABASE_URL: Joi.string(),
                 SUPABASE_KEY: Joi.string(),
                 PROD: Joi.boolean(),
+                CAR_IMAGE_BUCKET_NAME: Joi.string().required(),
+                BUCKET_URL: Joi.string().required(),
             }),
+            expandVariables: true,
         }),
         CarModule,
         AppointmentModule,
         AdminModule,
         AuthModule,
         CarTypeModule,
+        CarImageModule,
+        BrandModule,
     ],
     controllers: [AppController],
     providers: [AppService],
