@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "bunx prisma generate && bun run build",
+  "buildCommand": "prisma generate && bun run build",
   "builds": [
     {
       "src": "src/main.ts",
