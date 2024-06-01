@@ -16,9 +16,13 @@ datasource db {
 model Car {
   id          String        @id @default(uuid())
   model       String
+  name        String
+  description String
   price       Float
   engineType  EngineType
   placeNumber Int
+  color       String
+  power       Int
   available   Boolean?      @default(true)
   fav         Boolean?      @default(false)
   type        Type          @relation(fields: [typeId], references: [id])

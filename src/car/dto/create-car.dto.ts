@@ -7,6 +7,10 @@ export class CreateCarDto {
     placeNumber: number;
     fav: boolean | null;
     available: boolean | null;
+    name: string;
+    description: string;
+    power: number;
+    color: string;
     typeId: string;
     engineType: EngineType;
 }
