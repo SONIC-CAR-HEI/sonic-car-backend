@@ -18,6 +18,6 @@ export function omit<T extends object, K extends keyof T>(
 export type AuthenticatedRequest = Request & {
     user: {
         sub: string;
-        username: string;
+        email: string;
     };
 };

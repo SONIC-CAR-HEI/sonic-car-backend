@@ -4,6 +4,7 @@ import { JwtService } from "@nestjs/jwt";
 import { CryptoService } from "../crypto/crypto.service";
 import * as process from "node:process";
 import { LoginPayloadDto } from "./dto/login-payload.dto";
+import { AuthenticatedRequest } from "../utils/object.utils";
 
 @Injectable()
 export class AuthService {
@@ -58,5 +59,12 @@ export class AuthService {
                 secret: process.env.JWT_SECRET,
             }),
         };
+    }
+
+    async getIdentity(request: AuthenticatedRequest) {
+        const { password, ...user } = await this.adminService.findOne(
+            request.user.sub,
+        );
+        return user;
     }
 }
