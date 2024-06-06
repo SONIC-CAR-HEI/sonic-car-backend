@@ -6,6 +6,7 @@ import {
     Patch,
     Param,
     Delete,
+    Query,
 } from "@nestjs/common";
 import { BrandService } from "./brand.service";
 import { CreateBrandDto } from "./dto/create-brand.dto";
@@ -38,5 +39,15 @@ export class BrandController {
     @Delete(":id")
     remove(@Param("id") id: string) {
         return this.brandService.remove(id);
+    }
+
+    @Get("ids")
+    findManyIds(@Query("ids") ids: string[]) {
+        return this.brandService.findManyIds(ids);
+    }
+
+    @Delete("ids")
+    deleteManyIds(@Query("ids") ids: string[]) {
+        return this.brandService.removeManyIds(ids);
     }
 }

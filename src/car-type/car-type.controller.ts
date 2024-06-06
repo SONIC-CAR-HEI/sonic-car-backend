@@ -6,6 +6,7 @@ import {
     Patch,
     Param,
     Delete,
+    Query,
 } from "@nestjs/common";
 import { CarTypeService } from "./car-type.service";
 import { CreateCarTypeDto } from "./dto/create-car-type.dto";
@@ -41,5 +42,15 @@ export class CarTypeController {
     @Delete(":id")
     remove(@Param("id") id: string) {
         return this.carTypeService.remove(id);
+    }
+
+    @Get("ids")
+    findManyIds(@Query("ids") ids: string[]) {
+        return this.carTypeService.findManyIds(ids);
+    }
+
+    @Delete("ids")
+    deleteManyIds(@Query("ids") ids: string[]) {
+        return this.carTypeService.removeManyIds(ids);
     }
 }

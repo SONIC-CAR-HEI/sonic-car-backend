@@ -46,4 +46,14 @@ export class CarController {
     remove(@Param("id") id: string) {
         return this.carService.remove(id);
     }
+
+    @Delete("ids")
+    deleteManyIds(@Query("ids") ids: string[]) {
+        return this.carService.removeMayIds(ids);
+    }
+
+    @Get("ids")
+    findManyIds(@Query("ids") ids: string[]) {
+        return this.carService.findManyIds(ids);
+    }
 }

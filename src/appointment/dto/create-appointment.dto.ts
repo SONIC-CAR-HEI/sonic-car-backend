@@ -1,9 +1,11 @@
 import { AppointmentStatus } from "@prisma/client";
+import { IsEmail } from "class-validator";
 
 export class CreateAppointmentDto {
-    status: AppointmentStatus;
+    status: AppointmentStatus = "PENDING";
     firstName: string;
     lastName: string;
+    @IsEmail()
     email: string;
     tel: string | null;
     message: string;

@@ -45,4 +45,24 @@ export class BrandService {
             },
         });
     }
+
+    findManyIds(ids: string[]) {
+        return this.prismaService.brand.findMany({
+            where: {
+                id: {
+                    in: ids,
+                },
+            },
+        });
+    }
+
+    removeManyIds(ids: string[]) {
+        return this.prismaService.brand.deleteMany({
+            where: {
+                id: {
+                    in: ids,
+                },
+            },
+        });
+    }
 }

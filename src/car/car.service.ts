@@ -86,4 +86,24 @@ export class CarService {
             },
         });
     }
+
+    removeMayIds(ids: string[]) {
+        return this.prismaService.car.deleteMany({
+            where: {
+                id: {
+                    in: ids,
+                },
+            },
+        });
+    }
+
+    findManyIds(ids: string[]) {
+        return this.prismaService.car.findMany({
+            where: {
+                id: {
+                    in: ids,
+                },
+            },
+        });
+    }
 }

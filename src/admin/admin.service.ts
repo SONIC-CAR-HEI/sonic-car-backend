@@ -81,4 +81,14 @@ export class AdminService {
             },
         });
     }
+
+    findManyIds(ids: string[]) {
+        return this.prismaService.admin.findMany({
+            where: {
+                id: {
+                    in: ids,
+                },
+            },
+        });
+    }
 }

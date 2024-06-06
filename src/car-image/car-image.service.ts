@@ -7,10 +7,12 @@ import { PrismaService } from "../prisma/prisma.service";
 export class CarImageService {
     constructor(private readonly prismaService: PrismaService) {}
 
-    create(createCarImageDto: CreateCarImageDto) {
+    create(createCarImageDto: CreateCarImageDto, fileExtension: string) {
+        const imageUrl = `${process.env.BUCKET_URL}/object/public/${process.env.CAR_IMAGE_BUCKET_NAME}/${createCarImageDto.carId}/${createCarImageDto.imageUrl}${fileExtension}`;
         return this.prismaService.image.create({
             data: {
                 ...createCarImageDto,
+                imageUrl,
             },
         });
     }
@@ -50,6 +52,26 @@ export class CarImageService {
         return this.prismaService.image.findMany({
             where: {
                 carId,
+            },
+        });
+    }
+
+    findManyIds(ids: string[]) {
+        return this.prismaService.car.findMany({
+            where: {
+                id: {
+                    in: ids,
+                },
+            },
+        });
+    }
+
+    deleteManyIds(ids: string[]) {
+        return this.prismaService.image.deleteMany({
+            where: {
+                id: {
+                    in: ids,
+                },
             },
         });
     }
