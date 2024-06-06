@@ -45,4 +45,24 @@ export class CarTypeService {
             },
         });
     }
+
+    findManyIds(ids: string[]) {
+        return this.prismaService.type.findMany({
+            where: {
+                id: {
+                    in: ids,
+                },
+            },
+        });
+    }
+
+    removeManyIds(ids: string[]) {
+        return this.prismaService.type.deleteMany({
+            where: {
+                id: {
+                    in: ids,
+                },
+            },
+        });
+    }
 }

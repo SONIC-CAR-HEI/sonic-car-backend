@@ -1,9 +1,4 @@
-import {
-    BadRequestException,
-    Injectable,
-    Logger,
-    NotFoundException,
-} from "@nestjs/common";
+import { BadRequestException, Injectable, Logger } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
 import { CarImageService } from "../car-image/car-image.service";
 import { SupabaseClientService } from "../supabase-client/supabase-client.service";
@@ -44,24 +39,5 @@ export class StorageService {
         }
 
         return result;
-    }
-
-    async getCarImages(carId: string) {
-        const baseUrl = `${process.env.BUCKET_URL}/object/public/${process.env.CAR_IMAGE_BUCKET_NAME}/${carId}`;
-        const carImages = await this.carImageService.findByCarId(carId);
-
-        return carImages.map((carImage) => `${baseUrl}/${carImage.imageUrl}`);
-    }
-
-    async deleteCarImage(imageId: string) {
-        const { carId, imageUrl } = await this.carImageService.findOne(imageId);
-
-        if (!carId) {
-            throw new NotFoundException("Id not found");
-        }
-
-        return this.supabase.client.storage
-            .from(process.env.CAR_IMAGE_BUCKET_NAME)
-            .remove([`${carId}/${imageUrl}`]);
     }
 }

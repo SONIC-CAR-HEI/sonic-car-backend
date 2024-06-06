@@ -10,6 +10,7 @@ import { CarTypeModule } from "./car-type/car-type.module";
 import { CarImageModule } from "./car-image/car-image.module";
 import { BrandModule } from "./brand/brand.module";
 import * as Joi from "joi";
+import { ContactModule } from "./contact/contact.module";
 
 @Module({
     imports: [
@@ -23,6 +24,8 @@ import * as Joi from "joi";
                 PROD: Joi.boolean(),
                 CAR_IMAGE_BUCKET_NAME: Joi.string().required(),
                 BUCKET_URL: Joi.string().required(),
+                ADMIN_EMAIL_APP_PASSWORD: Joi.string().required(),
+                PRIMARY_ADMIN_EMAIL: Joi.string().email().required(),
             }),
             expandVariables: true,
         }),
@@ -33,6 +36,7 @@ import * as Joi from "joi";
         CarTypeModule,
         CarImageModule,
         BrandModule,
+        ContactModule,
     ],
     controllers: [AppController],
     providers: [AppService],

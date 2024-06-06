@@ -10,6 +10,7 @@ import {
     Logger,
     UseInterceptors,
     BadRequestException,
+    Query,
 } from "@nestjs/common";
 import { CarImageService } from "./car-image.service";
 import { UpdateCarImageDto } from "./dto/update-car-image.dto";
@@ -65,10 +66,13 @@ export class CarImageController {
             image.buffer,
             mimeType,
         );
-        const imageData = await this.carImageService.create({
-            carId,
-            imageUrl: savedImageName,
-        });
+        const imageData = await this.carImageService.create(
+            {
+                carId,
+                imageUrl: savedImageName,
+            },
+            fileExtension,
+        );
         this.logger.log("Generated mime type: " + mimeType);
         return imageData;
     }
@@ -94,6 +98,16 @@ export class CarImageController {
 
     @Get(":carId")
     getCarImages(@Param("carId") carId: string) {
-        return this.storageService.getCarImages(carId);
+        return this.carImageService.findByCarId(carId);
+    }
+
+    @Get("ids")
+    findManyByIds(@Query("ids") ids: string[]) {
+        return this.carImageService.findManyIds(ids);
+    }
+
+    @Delete("ids")
+    removeManyIds(@Query("ids") ids: string[]) {
+        return this.carImageService.deleteManyIds(ids);
     }
 }

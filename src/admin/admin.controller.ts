@@ -7,6 +7,8 @@ import {
     Param,
     Delete,
     UseGuards,
+    Query,
+    UnauthorizedException,
 } from "@nestjs/common";
 import { AdminService } from "./admin.service";
 import { CreateAdminDto } from "./dto/create-admin.dto";
@@ -41,5 +43,15 @@ export class AdminController {
     @Delete(":id")
     remove(@Param("id") id: string) {
         return this.adminService.remove(id);
+    }
+
+    @Get("ids")
+    findManyIds(@Query("ids") ids: string[]) {
+        return this.adminService.findManyIds(ids);
+    }
+
+    @Delete("ids")
+    deleteManyIds() {
+        throw new UnauthorizedException("You must remove id");
     }
 }
