@@ -24,6 +24,8 @@ import { ContactModule } from "./contact/contact.module";
                 PROD: Joi.boolean(),
                 CAR_IMAGE_BUCKET_NAME: Joi.string().required(),
                 BUCKET_URL: Joi.string().required(),
+                ADMIN_EMAIL_APP_PASSWORD: Joi.string().required(),
+                PRIMARY_ADMIN_EMAIL: Joi.string().email().required()
             }),
             expandVariables: true,
         }),
