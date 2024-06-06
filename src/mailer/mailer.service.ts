@@ -21,10 +21,9 @@ export class MailerService {
     async sendMail(emailFrom: string, subject: string, message: string) {
         return await this.transport.sendMail({
             from: emailFrom,
-            to: this.emailAdmin,
             subject,
             envelope: { from: emailFrom, to: this.emailAdmin },
-            text: message,
+            text: `Hello, it\'s ${emailFrom}\n\n${message}`,
         });
     }
 }
