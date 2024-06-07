@@ -29,15 +29,15 @@ export class AdminController {
         throw new UnauthorizedException("You must remove id");
     }
 
-    @Post()
-    create(@Body() createAdminDto: CreateAdminDto) {
-        return this.adminService.create(createAdminDto);
-    }
-
     @Get()
     @UseGuards(JwtAuthGuard)
     findAll() {
         return this.adminService.findAll();
+    }
+
+    @Post()
+    create(@Body() createAdminDto: CreateAdminDto) {
+        return this.adminService.create(createAdminDto);
     }
 
     @Get(":id")
