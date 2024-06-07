@@ -8,7 +8,7 @@ async function bootstrap() {
 
     app.enableCors({
         origin: [
-            "https://sonic-car-backend.vercel.app",
+            "https://concessionnaire-kohl.vercel.app",
             "http://localhost:3001",
         ],
         methods: "GET, HEAD, PUT, POST, DELETE, OPTIONS, PATCH",
