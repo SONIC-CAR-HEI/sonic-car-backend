@@ -7,13 +7,16 @@ import {
     Param,
     Delete,
     Query,
+    Logger,
 } from "@nestjs/common";
 import { CarTypeService } from "./car-type.service";
 import { CreateCarTypeDto } from "./dto/create-car-type.dto";
 import { UpdateCarTypeDto } from "./dto/update-car-type.dto";
+import { CarType } from "./entities/car-type.entity";
 
 @Controller("car-type")
 export class CarTypeController {
+    private readonly log = new Logger(CarType.name);
     constructor(private readonly carTypeService: CarTypeService) {}
 
     @Post()
@@ -24,6 +27,16 @@ export class CarTypeController {
     @Get()
     findAll() {
         return this.carTypeService.findAll();
+    }
+
+    @Get("ids")
+    findManyIds(@Query("ids") ids: string[]) {
+        return this.carTypeService.findManyIds(ids);
+    }
+
+    @Delete("ids")
+    deleteManyIds(@Query("ids") ids: string[]) {
+        return this.carTypeService.removeManyIds(ids);
     }
 
     @Get(":id")
@@ -42,15 +55,5 @@ export class CarTypeController {
     @Delete(":id")
     remove(@Param("id") id: string) {
         return this.carTypeService.remove(id);
-    }
-
-    @Get("ids")
-    findManyIds(@Query("ids") ids: string[]) {
-        return this.carTypeService.findManyIds(ids);
-    }
-
-    @Delete("ids")
-    deleteManyIds(@Query("ids") ids: string[]) {
-        return this.carTypeService.removeManyIds(ids);
     }
 }

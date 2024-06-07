@@ -19,6 +19,16 @@ import { JwtAuthGuard } from "../auth/auth.guard";
 export class AdminController {
     constructor(private readonly adminService: AdminService) {}
 
+    @Get("ids")
+    findManyIds(@Query("ids") ids: string[]) {
+        return this.adminService.findManyIds(ids);
+    }
+
+    @Delete("ids")
+    deleteManyIds() {
+        throw new UnauthorizedException("You must remove id");
+    }
+
     @Post()
     create(@Body() createAdminDto: CreateAdminDto) {
         return this.adminService.create(createAdminDto);
@@ -43,15 +53,5 @@ export class AdminController {
     @Delete(":id")
     remove(@Param("id") id: string) {
         return this.adminService.remove(id);
-    }
-
-    @Get("ids")
-    findManyIds(@Query("ids") ids: string[]) {
-        return this.adminService.findManyIds(ids);
-    }
-
-    @Delete("ids")
-    deleteManyIds() {
-        throw new UnauthorizedException("You must remove id");
     }
 }

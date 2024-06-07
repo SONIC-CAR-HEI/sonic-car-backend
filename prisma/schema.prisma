@@ -48,9 +48,9 @@ enum EngineType {
 }
 
 model Type {
-  id          String @id @default(uuid())
+  id          String  @id @default(uuid())
   name        String
-  description String
+  description String?
   cars        Car[]
 }
 
@@ -63,7 +63,7 @@ enum AppointmentStatus {
 
 model Appointment {
   id         String            @id @default(uuid())
-  status     AppointmentStatus
+  status     AppointmentStatus @default(PENDING)
   firstName  String
   lastName   String
   message    String
