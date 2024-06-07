@@ -21,16 +21,16 @@ export class CarService {
         if (query) {
             filters.push({
                 OR: [
-                    { name: { contains: query } },
-                    { model: { contains: query } },
+                    { name: { contains: query, mode: "insensitive" } },
+                    { model: { contains: query, mode: "insensitive" } },
                 ],
             });
         }
         if (minPrice && minPrice > 0) {
-            filters.push({ price: { gte: minPrice } });
+            filters.push({ price: { gte: +minPrice } });
         }
         if (maxPrice && maxPrice > 0 && minPrice && maxPrice > minPrice) {
-            filters.push({ price: { lte: maxPrice } });
+            filters.push({ price: { lte: +maxPrice } });
         }
         if (motor) {
             filters.push({ engineType: motor as EngineType });

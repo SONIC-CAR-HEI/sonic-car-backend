@@ -16,6 +16,16 @@ import { UpdateBrandDto } from "./dto/update-brand.dto";
 export class BrandController {
     constructor(private readonly brandService: BrandService) {}
 
+    @Get("ids")
+    findManyIds(@Query("ids") ids: string[]) {
+        return this.brandService.findManyIds(ids);
+    }
+
+    @Delete("ids")
+    deleteManyIds(@Query("ids") ids: string[]) {
+        return this.brandService.removeManyIds(ids);
+    }
+
     @Post()
     create(@Body() createBrandDto: CreateBrandDto) {
         return this.brandService.create(createBrandDto);
@@ -39,15 +49,5 @@ export class BrandController {
     @Delete(":id")
     remove(@Param("id") id: string) {
         return this.brandService.remove(id);
-    }
-
-    @Get("ids")
-    findManyIds(@Query("ids") ids: string[]) {
-        return this.brandService.findManyIds(ids);
-    }
-
-    @Delete("ids")
-    deleteManyIds(@Query("ids") ids: string[]) {
-        return this.brandService.removeManyIds(ids);
     }
 }

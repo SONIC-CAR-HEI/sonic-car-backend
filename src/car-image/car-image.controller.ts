@@ -27,6 +27,21 @@ export class CarImageController {
         private readonly storageService: StorageService,
     ) {}
 
+    @Get("ids")
+    findManyByIds(@Query("ids") ids: string[]) {
+        return this.carImageService.findManyIds(ids);
+    }
+
+    @Get("object/:id")
+    findImageById(@Param("id") id: string) {
+        return this.carImageService.findOne(id);
+    }
+
+    @Delete("ids")
+    removeManyIds(@Query("ids") ids: string[]) {
+        return this.carImageService.deleteManyIds(ids);
+    }
+
     @Post(":carId")
     @UseInterceptors(
         FileInterceptor("image", {
@@ -92,22 +107,11 @@ export class CarImageController {
 
     @Delete(":id")
     async remove(@Param("id") id: string) {
-        // const result = await this.storageService.deleteCarImage(id);
         return this.carImageService.remove(id);
     }
 
     @Get(":carId")
     getCarImages(@Param("carId") carId: string) {
         return this.carImageService.findByCarId(carId);
-    }
-
-    @Get("ids")
-    findManyByIds(@Query("ids") ids: string[]) {
-        return this.carImageService.findManyIds(ids);
-    }
-
-    @Delete("ids")
-    removeManyIds(@Query("ids") ids: string[]) {
-        return this.carImageService.deleteManyIds(ids);
     }
 }
