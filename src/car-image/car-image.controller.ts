@@ -11,6 +11,7 @@ import {
     UseInterceptors,
     BadRequestException,
     Query,
+    UseGuards,
 } from "@nestjs/common";
 import { CarImageService } from "./car-image.service";
 import { UpdateCarImageDto } from "./dto/update-car-image.dto";
@@ -18,6 +19,7 @@ import { StorageService } from "../storage/storage.service";
 import { uuid } from "@supabase/supabase-js/dist/main/lib/helpers";
 import { FileInterceptor } from "@nestjs/platform-express";
 import * as path from "node:path";
+import { JwtAuthGuard } from "../auth/auth.guard";
 
 @Controller("car-image")
 export class CarImageController {
@@ -27,6 +29,7 @@ export class CarImageController {
         private readonly storageService: StorageService,
     ) {}
 
+    @UseGuards(JwtAuthGuard)
     @Get("ids")
     findManyByIds(@Query("ids") ids: string[]) {
         return this.carImageService.findManyIds(ids);
@@ -37,11 +40,13 @@ export class CarImageController {
         return this.carImageService.findOne(id);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete("ids")
     removeManyIds(@Query("ids") ids: string[]) {
         return this.carImageService.deleteManyIds(ids);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post(":carId")
     @UseInterceptors(
         FileInterceptor("image", {
@@ -97,6 +102,7 @@ export class CarImageController {
         return this.carImageService.findAll();
     }
 
+    @UseGuards(JwtAuthGuard)
     @Patch(":id")
     update(
         @Param("id") id: string,
@@ -105,6 +111,7 @@ export class CarImageController {
         return this.carImageService.update(id, updateCarImageDto);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete(":id")
     async remove(@Param("id") id: string) {
         return this.carImageService.remove(id);

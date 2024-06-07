@@ -106,4 +106,12 @@ export class CarService {
             },
         });
     }
+
+    findFavorites() {
+        return this.prismaService.car.findMany({
+            where: {
+                fav: true,
+            },
+        });
+    }
 }

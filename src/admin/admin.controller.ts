@@ -19,39 +19,45 @@ import { JwtAuthGuard } from "../auth/auth.guard";
 export class AdminController {
     constructor(private readonly adminService: AdminService) {}
 
+    @UseGuards(JwtAuthGuard)
     @Get("ids")
     findManyIds(@Query("ids") ids: string[]) {
         return this.adminService.findManyIds(ids);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete("ids")
     deleteManyIds() {
         throw new UnauthorizedException("You must remove id");
     }
 
-    @Get()
     @UseGuards(JwtAuthGuard)
-    findAll() {
-        return this.adminService.findAll();
-    }
-
     @Post()
     create(@Body() createAdminDto: CreateAdminDto) {
         return this.adminService.create(createAdminDto);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get(":id")
     findOne(@Param("id") id: string) {
         return this.adminService.findOne(id);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Patch(":id")
     update(@Param("id") id: string, @Body() updateAdminDto: UpdateAdminDto) {
         return this.adminService.update(id, updateAdminDto);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete(":id")
     remove(@Param("id") id: string) {
         return this.adminService.remove(id);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get()
+    findAll() {
+        return this.adminService.findAll();
     }
 }
