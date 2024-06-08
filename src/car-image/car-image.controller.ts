@@ -6,19 +6,13 @@ import {
     Patch,
     Param,
     Delete,
-    UploadedFile,
     Logger,
-    UseInterceptors,
-    BadRequestException,
     Query,
     UseGuards,
 } from "@nestjs/common";
 import { CarImageService } from "./car-image.service";
 import { UpdateCarImageDto } from "./dto/update-car-image.dto";
 import { StorageService } from "../storage/storage.service";
-import { uuid } from "@supabase/supabase-js/dist/main/lib/helpers";
-import { FileInterceptor } from "@nestjs/platform-express";
-import * as path from "node:path";
 import { JwtAuthGuard } from "../auth/auth.guard";
 import { CreateCarImageDto } from "./dto/create-car-image.dto";
 
