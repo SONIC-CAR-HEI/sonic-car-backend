@@ -15,17 +15,11 @@ import { CreateCarDto } from "./dto/create-car.dto";
 import { SearchParamDto } from "./dto/search-param.dto";
 import { UpdateCarDto } from "./dto/update-car.dto";
 import { JwtAuthGuard } from "../auth/auth.guard";
-import { SupabaseClientService } from "../supabase-client/supabase-client.service";
-import { CarImageService } from "../car-image/car-image.service";
 
 @Controller("car")
 export class CarController {
     private readonly logger = new Logger(CarController.name);
-    constructor(
-        private readonly carService: CarService,
-        private readonly supabaseClientService: SupabaseClientService,
-        private readonly carImageService: CarImageService,
-    ) {}
+    constructor(private readonly carService: CarService) {}
 
     @UseGuards(JwtAuthGuard)
     @Delete("ids")
