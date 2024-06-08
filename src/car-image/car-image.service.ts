@@ -7,12 +7,10 @@ import { PrismaService } from "../prisma/prisma.service";
 export class CarImageService {
     constructor(private readonly prismaService: PrismaService) {}
 
-    create(createCarImageDto: CreateCarImageDto, fileExtension: string) {
-        const imageUrl = `${process.env.BUCKET_URL}/object/public/${process.env.CAR_IMAGE_BUCKET_NAME}/${createCarImageDto.carId}/${createCarImageDto.imageUrl}${fileExtension}`;
+    create(createCarImageDto: CreateCarImageDto) {
         return this.prismaService.image.create({
             data: {
                 ...createCarImageDto,
-                imageUrl,
             },
         });
     }

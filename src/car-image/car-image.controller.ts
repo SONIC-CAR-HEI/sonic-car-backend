@@ -20,6 +20,7 @@ import { uuid } from "@supabase/supabase-js/dist/main/lib/helpers";
 import { FileInterceptor } from "@nestjs/platform-express";
 import * as path from "node:path";
 import { JwtAuthGuard } from "../auth/auth.guard";
+import { CreateCarImageDto } from "./dto/create-car-image.dto";
 
 @Controller("car-image")
 export class CarImageController {
@@ -47,54 +48,9 @@ export class CarImageController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Post(":carId")
-    @UseInterceptors(
-        FileInterceptor("image", {
-            limits: {
-                fileSize: 5000000,
-            },
-            fileFilter: (req, file, callback) => {
-                if (!file.originalname.match(/\.(png|jpeg|jpg)/)) {
-                    callback(
-                        new BadRequestException(
-                            "Wrong filetype. Please upload an image file",
-                        ),
-                        false,
-                    );
-                }
-                callback(undefined, true);
-            },
-        }),
-    )
-    async create(
-        @Param("carId") carId: string,
-        @UploadedFile() image: Express.Multer.File,
-    ) {
-        this.logger.log("Treating image upload of " + image.originalname);
-        const fileExtension = path.extname(image.originalname);
-        this.logger.log("Detected image extension: " + fileExtension);
-        const imageKey = uuid();
-        this.logger.log("Generated uuid " + imageKey);
-        const savedImageName = imageKey + fileExtension;
-        this.logger.log("Saved image name: " + savedImageName);
-        const extArr = fileExtension.split("");
-        extArr.shift();
-        const mimeType = `image/${extArr.join("")}`;
-        await this.storageService.saveCarImage(
-            carId,
-            savedImageName,
-            image.buffer,
-            mimeType,
-        );
-        const imageData = await this.carImageService.create(
-            {
-                carId,
-                imageUrl: savedImageName,
-            },
-            fileExtension,
-        );
-        this.logger.log("Generated mime type: " + mimeType);
-        return imageData;
+    @Post()
+    createNormal(@Body() create: CreateCarImageDto) {
+        return this.carImageService.create(create);
     }
 
     @Get()

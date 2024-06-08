@@ -52,6 +52,10 @@ export class CarService {
         return this.prismaService.car.create({
             data: {
                 ...createCarDto,
+                price: +createCarDto.price,
+                power: +createCarDto.power,
+                placeNumber: +createCarDto.placeNumber,
+                fav: !!createCarDto.fav,
             },
         });
     }
