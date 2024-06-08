@@ -13,7 +13,6 @@ async function bootstrap() {
             credentials: true,
             methods: ["PUT", "PATCH", "DELETE", "OPTIONS", "POST", "GET"],
         },
-        bodyParser: true,
     });
 
     const openApiConfig = new DocumentBuilder()
